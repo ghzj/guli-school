@@ -12,6 +12,8 @@
         <module>guli-school-common</module>
         <module>guli-school-parent</module>
         <module>education-service</module>
+        <module>renren-generator</module>
+        <module>renren-fast</module>
     </modules>
 
     <properties>
