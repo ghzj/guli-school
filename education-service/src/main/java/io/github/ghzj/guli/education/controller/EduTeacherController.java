@@ -2,13 +2,16 @@ package io.github.ghzj.guli.education.controller;
 
 import io.github.ghzj.guli.common.utils.PageUtils;
 import io.github.ghzj.guli.common.utils.R;
+import io.github.ghzj.guli.common.vo.CommonResult;
 import io.github.ghzj.guli.education.entity.EduTeacherEntity;
+import io.github.ghzj.guli.education.object.transfer.data.teacher.ListTeacherDTO;
 import io.github.ghzj.guli.education.service.EduTeacherService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
-import java.util.Map;
 
 
 /**
@@ -20,6 +23,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("education/eduteacher")
+@Slf4j
 public class EduTeacherController {
     @Autowired
     private EduTeacherService eduTeacherService;
@@ -27,19 +31,19 @@ public class EduTeacherController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     //@RequiresPermissions("education:eduteacher:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = eduTeacherService.queryPage(params);
-
-        return R.ok().put("page", page);
+//    public CommonResult<PageUtils> list(@RequestParam Map<String, Object> params){
+    public CommonResult<PageUtils> list(@Validated ListTeacherDTO listTeacherDTO){
+        PageUtils page = eduTeacherService.queryPage(listTeacherDTO);
+        return CommonResult.success(page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     //@RequiresPermissions("education:eduteacher:info")
     public R info(@PathVariable("id") String id){
 		EduTeacherEntity eduTeacher = eduTeacherService.getById(id);
@@ -50,7 +54,7 @@ public class EduTeacherController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     //@RequiresPermissions("education:eduteacher:save")
     public R save(@RequestBody EduTeacherEntity eduTeacher){
 		eduTeacherService.save(eduTeacher);
@@ -61,7 +65,7 @@ public class EduTeacherController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     //@RequiresPermissions("education:eduteacher:update")
     public R update(@RequestBody EduTeacherEntity eduTeacher){
 		eduTeacherService.updateById(eduTeacher);
@@ -72,12 +76,12 @@ public class EduTeacherController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     //@RequiresPermissions("education:eduteacher:delete")
-    public R delete(@RequestBody String[] ids){
+    public CommonResult<Boolean> delete(@RequestBody String[] ids){
 		eduTeacherService.removeByIds(Arrays.asList(ids));
 
-        return R.ok();
+        return CommonResult.success(true);
     }
 
 }

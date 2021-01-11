@@ -26,13 +26,19 @@
 
         <dependency>
             <groupId>io.github.ghzj</groupId>
-            <artifactId>guli-college-spring-boot-starter-swagger</artifactId>
+            <artifactId>guli-school-spring-boot-starter-web</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <!-- mybatis plus 启动器  -->
+
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <groupId>io.github.ghzj</groupId>
+            <artifactId>guli-school-spring-boot-starter-swagger</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.ghzj</groupId>
+            <artifactId>guli-school-spring-boot-starter-mybatis</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
