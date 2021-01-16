@@ -1,0 +1,29 @@
+server:
+  port: 11111
+
+spring:
+  application:
+    name: generator-service
+  resources:
+    static-locations: classpath:/static/,classpath:/views/
+  datasource:
+    url: jdbc:mysql://192.168.100.21:3306/information_schema?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root # 数据库账号
+    password: 123 # 数据库密码
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+ghxj:
+  generator:
+    template-class-scan-package-path: io.github.ghzj.generator.template.po
+    template-dir-path: ftl/
+    main-path: io.github.ghzj.guli
+    package-path: io.github.ghzj.guli
+    module-name: education
+    author: ghzj
+    email: xxxxxxx@qq.com
+    table-prefix:
+      - education_
+    base-error-code: 1000000

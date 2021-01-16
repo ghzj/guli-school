@@ -1,8 +1,6 @@
 package io.github.ghzj.guli.education.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -23,7 +21,7 @@ public class EduTeacherEntity implements Serializable {
 	/**
 	 * 讲师ID
 	 */
-	@TableId
+	@TableId(value = "id", type = IdType.ID_WORKER_STR)
 	private String id;
 	/**
 	 * 讲师姓名
@@ -57,10 +55,12 @@ public class EduTeacherEntity implements Serializable {
 	/**
 	 * 创建时间
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	private Date gmtCreate;
 	/**
 	 * 更新时间
 	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date gmtModified;
 
 }

@@ -1,11 +1,18 @@
 package io.github.ghzj.guli.education.controller;
 
+import io.github.ghzj.guli.common.exception.util.ServiceExceptionUtil;
 import io.github.ghzj.guli.common.utils.PageUtils;
 import io.github.ghzj.guli.common.utils.R;
 import io.github.ghzj.guli.common.vo.CommonResult;
+import io.github.ghzj.guli.education.constant.EducationCodeConstants;
+import io.github.ghzj.guli.education.convert.eduteacher.EduTeacherMapStruct;
 import io.github.ghzj.guli.education.entity.EduTeacherEntity;
+import io.github.ghzj.guli.education.object.transfer.data.eduteacher.ListEduTeacherDTO;
+import io.github.ghzj.guli.education.object.transfer.data.eduteacher.SaveEduTeacherDTO;
 import io.github.ghzj.guli.education.object.transfer.data.teacher.ListTeacherDTO;
 import io.github.ghzj.guli.education.service.EduTeacherService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +30,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("education/eduteacher")
+@Api("讲师 API")
 @Slf4j
 public class EduTeacherController {
     @Autowired
@@ -31,11 +39,10 @@ public class EduTeacherController {
     /**
      * 列表
      */
-    @GetMapping("/list")
-    //@RequiresPermissions("education:eduteacher:list")
-//    public CommonResult<PageUtils> list(@RequestParam Map<String, Object> params){
-    public CommonResult<PageUtils> list(@Validated ListTeacherDTO listTeacherDTO){
-        PageUtils page = eduTeacherService.queryPage(listTeacherDTO);
+    @PostMapping("/list")
+    @ApiOperation("分页查询")
+    public CommonResult<PageUtils> list(@RequestBody @Validated ListEduTeacherDTO listEduTeacherDTO){
+        PageUtils page = eduTeacherService.queryPage(listEduTeacherDTO);
         return CommonResult.success(page);
     }
 
@@ -44,33 +51,36 @@ public class EduTeacherController {
      * 信息
      */
     @GetMapping("/info/{id}")
-    //@RequiresPermissions("education:eduteacher:info")
-    public R info(@PathVariable("id") String id){
+    public CommonResult<EduTeacherEntity> info(@PathVariable("id") String id){
 		EduTeacherEntity eduTeacher = eduTeacherService.getById(id);
 
-        return R.ok().put("eduTeacher", eduTeacher);
+        return CommonResult.success(eduTeacher);
     }
 
     /**
      * 保存
      */
     @PostMapping("/save")
-    //@RequiresPermissions("education:eduteacher:save")
-    public R save(@RequestBody EduTeacherEntity eduTeacher){
-		eduTeacherService.save(eduTeacher);
+    @ApiOperation("添加老师")
+    public CommonResult<Boolean> save(@RequestBody SaveEduTeacherDTO saveEduTeacherDTO){
 
-        return R.ok();
+        boolean flag = eduTeacherService.save(EduTeacherMapStruct.INSTANCE.DTO2P(saveEduTeacherDTO));
+        if (!flag){
+            throw ServiceExceptionUtil.exception(EducationCodeConstants.EDUCATION_TEACHER_SAVE_ERROR);
+        }
+        return CommonResult.success(true);
     }
 
     /**
      * 修改
      */
     @PutMapping("/update")
-    //@RequiresPermissions("education:eduteacher:update")
-    public R update(@RequestBody EduTeacherEntity eduTeacher){
-		eduTeacherService.updateById(eduTeacher);
-
-        return R.ok();
+    public CommonResult<Boolean> update(@RequestBody EduTeacherEntity eduTeacher){
+        boolean flag = eduTeacherService.updateById(eduTeacher);
+        if (!flag){
+            throw ServiceExceptionUtil.exception(EducationCodeConstants.EDUCATION_TEACHER_UPDATE_ERROR);
+        }
+        return CommonResult.success(true);
     }
 
     /**

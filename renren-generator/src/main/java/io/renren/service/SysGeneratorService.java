@@ -13,18 +13,23 @@ import com.github.pagehelper.PageHelper;
 import io.renren.config.MongoManager;
 import io.renren.dao.GeneratorDao;
 import io.renren.dao.MongoDBGeneratorDao;
+import io.renren.entity.context.ErrorCodeContext;
+import io.renren.entity.context.ErrorCodeContextHolder;
 import io.renren.entity.mongo.MongoDefinition;
 import io.renren.factory.MongoDBCollectionFactory;
 import io.renren.utils.GenUtils;
 import io.renren.utils.PageUtils;
 import io.renren.utils.Query;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -34,6 +39,8 @@ import java.util.zip.ZipOutputStream;
  */
 @Service
 public class SysGeneratorService {
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private GeneratorDao generatorDao;
 
@@ -58,6 +65,11 @@ public class SysGeneratorService {
 
 
     public byte[] generatorCode(String[] tableNames) {
+//        ErrorCodeContext context = ErrorCodeContextHolder.getContext();
+//        ConcurrentHashMap<String, Integer> errorCode = context.getErrorCode();
+//        errorCode.forEach((s, integer) -> {
+//            logger.info("=============== "+s + " "+ integer);
+//        });
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
         for (String tableName : tableNames) {

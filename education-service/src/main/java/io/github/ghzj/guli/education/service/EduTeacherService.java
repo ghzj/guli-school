@@ -3,6 +3,7 @@ package io.github.ghzj.guli.education.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.ghzj.guli.common.utils.PageUtils;
 import io.github.ghzj.guli.education.entity.EduTeacherEntity;
+import io.github.ghzj.guli.education.object.transfer.data.eduteacher.ListEduTeacherDTO;
 import io.github.ghzj.guli.education.object.transfer.data.teacher.ListTeacherDTO;
 
 import java.util.Map;
@@ -16,6 +17,6 @@ import java.util.Map;
  */
 public interface EduTeacherService extends IService<EduTeacherEntity> {
 
-    PageUtils queryPage(ListTeacherDTO listTeacherDTO);
+    PageUtils queryPage(ListEduTeacherDTO listEduTeacherDTO);
 }
 

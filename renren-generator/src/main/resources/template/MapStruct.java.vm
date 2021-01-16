@@ -1,0 +1,25 @@
+package ${package}.${moduleName}.${convert};
+
+
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.${DTO}.${packageName}.${className}SaveDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Mapper
+public interface  ${className}MapStruct {
+    ${className}MapStruct INSTANCE = Mappers.getMapper(${className}MapStruct.class);
+
+    /**
+    * @param param ${className}SaveDTO
+    * @return DTO2P
+    */
+    ${className}Entity DTO2P(${className}SaveDTO param);
+}

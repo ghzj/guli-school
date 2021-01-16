@@ -1,0 +1,27 @@
+package ${package}.${moduleName}.${DTO}.${packageName};
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
+import lombok.Data;
+import java.util.Date;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Data
+@ApiModel("${comments} 添加 Request DTO")
+public class ${className}SaveDTO {
+
+#foreach ($column in $columns)
+    //$column.comments
+    @ApiModelProperty(value = "$column.comments")
+    private $column.attrType $column.attrname;
+#end
+
+}

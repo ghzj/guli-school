@@ -3,8 +3,11 @@ package io.renren.utils;
 import io.renren.config.MongoManager;
 import io.renren.entity.ColumnEntity;
 import io.renren.entity.TableEntity;
+import io.renren.entity.context.ErrorCodeContextHolder;
 import io.renren.entity.mongo.MongoDefinition;
 import io.renren.entity.mongo.MongoGeneratorEntity;
+import io.renren.template.CustomFactory;
+import io.renren.template.ExecTemplate;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -14,6 +17,7 @@ import org.apache.commons.lang.WordUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +35,12 @@ import java.util.zip.ZipOutputStream;
  */
 public class GenUtils {
 
+    private static final CustomFactory customFactory;
+
+    static {
+       customFactory = new CustomFactory("io.renren.template.po");
+    }
+
     private static String currentTableName;
 
     public static List<String> getTemplates() {
@@ -47,6 +57,8 @@ public class GenUtils {
 
         templates.add("template/index.vue.vm");
         templates.add("template/add-or-update.vue.vm");
+
+        templates.addAll(customFactory.gettemplates());
         if (MongoManager.isMongo()) {
             // mongo不需要mapper、sql   实体类需要替换
             templates.remove(0);
@@ -143,6 +155,12 @@ public class GenUtils {
         map.put("author", config.getString("author"));
         map.put("email", config.getString("email"));
         map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
+        map.put("packageName",tableToPackageName(tableEntity.getTableName(), config.getStringArray("tablePrefix")));
+        map.put("DTO",config.getString("DTO"));
+        map.put("convert",config.getString("convert"));
+        map.put("constant",config.getString("constant"));
+        map.put("tableNameToUpperCase",tableEntity.getTableName().toUpperCase());
+        map.put("errorCode", ErrorCodeContextHolder.getErrorCode(tableEntity.getTableName()));
         VelocityContext context = new VelocityContext(map);
 
         //获取模板列表
@@ -155,7 +173,7 @@ public class GenUtils {
 
             try {
                 //添加到zip
-                zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), config.getString("package"), config.getString("moduleName"))));
+                zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), config.getString("package"), config.getString("moduleName"),map)));
                 IOUtils.write(sw.toString(), zip, "UTF-8");
                 IOUtils.closeQuietly(sw);
                 zip.closeEntry();
@@ -273,14 +291,22 @@ public class GenUtils {
      * 表名转换成Java类名
      */
     public static String tableToJava(String tableName, String[] tablePrefixArray) {
+        return columnToJava(getNoPrefixTableName(tableName, tablePrefixArray));
+    }
+
+    public static String tableToPackageName(String tableName, String[] tablePrefixArray) {
+        return getNoPrefixTableName(tableName, tablePrefixArray).replace("_", ".");
+    }
+
+    private static String getNoPrefixTableName(String tableName, String[] tablePrefixArray) {
         if (null != tablePrefixArray && tablePrefixArray.length > 0) {
             for (String tablePrefix : tablePrefixArray) {
-                  if (tableName.startsWith(tablePrefix)){
+                if (tableName.startsWith(tablePrefix)) {
                     tableName = tableName.replaceFirst(tablePrefix, "");
                 }
             }
         }
-        return columnToJava(tableName);
+        return tableName;
     }
 
     /**
@@ -294,16 +320,19 @@ public class GenUtils {
         }
     }
 
+    public static String getFileName(String template, String className, String packageName, String moduleName) {
+        return getFileName(template,className,packageName,moduleName,null);
+    }
     /**
      * 获取文件名
      */
-    public static String getFileName(String template, String className, String packageName, String moduleName) {
+    public static String getFileName(String template, String className, String packageName, String moduleName,Map<String, Object> map) {
         String packagePath = "main" + File.separator + "java" + File.separator;
         if (StringUtils.isNotBlank(packageName)) {
             packagePath += packageName.replace(".", File.separator) + File.separator + moduleName + File.separator;
         }
         if (template.contains("MongoChildrenEntity.java.vm")) {
-            return packagePath + "entity" + File.separator + "inner" + File.separator + currentTableName+ File.separator + splitInnerName(className)+ "InnerEntity.java";
+            return packagePath + "entity" + File.separator + "inner" + File.separator + currentTableName + File.separator + splitInnerName(className) + "InnerEntity.java";
         }
         if (template.contains("Entity.java.vm") || template.contains("MongoEntity.java.vm")) {
             return packagePath + "entity" + File.separator + className + "Entity.java";
@@ -343,11 +372,20 @@ public class GenUtils {
                     File.separator + moduleName + File.separator + className.toLowerCase() + "-add-or-update.vue";
         }
 
+        List<ExecTemplate> templatesList = customFactory.getTemplatesList();
+        if (!CollectionUtils.isEmpty(templatesList)){
+            for (ExecTemplate execTemplate : templatesList) {
+                if (execTemplate.isFileName(template)){
+                    return execTemplate.getFilePathName(packagePath,map);
+                }
+            }
+        }
+
         return null;
     }
 
-    private static String splitInnerName(String name){
-          name = name.replaceAll("\\.","_");
-          return name;
+    private static String splitInnerName(String name) {
+        name = name.replaceAll("\\.", "_");
+        return name;
     }
 }
