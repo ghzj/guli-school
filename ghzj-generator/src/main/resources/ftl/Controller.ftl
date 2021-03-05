@@ -19,6 +19,7 @@ import ${packagePath}.common.vo.CommonResult;
 import ${packagePath}.common.utils.PageUtils;
 import ${packagePath}.${moduleName}.${ListDTOPath}.${packageName}.${className}${ListDTOName};
 import ${packagePath}.${moduleName}.${SaveDTOPath}.${packageName}.${className}${SaveDTOName};
+import ${packagePath}.${moduleName}.${UpdateDTOPath}.${packageName}.${className}${UpdateDTOName};
 import ${packagePath}.${moduleName}.${MapStructPath}.${className}${MapStructName};
 import ${packagePath}.${moduleName}.${CodeConstantsPath}.${className}${CodeConstantsName};
 import org.springframework.validation.annotation.Validated;
@@ -53,6 +54,17 @@ public class ${className}${ControllerName} {
     }
 
     /**
+    * 信息
+    */
+    @GetMapping("/info/{${pk.humpAttrName}}")
+    @ApiOperation("查询${tableComment}信息")
+    public CommonResult${r"<"}${className}${EntityName}> info(@PathVariable("${pk.humpAttrName}") ${pk.attrType} ${pk.humpAttrName}){
+        ${className}${EntityName} ${humpClassName} = ${humpClassName}${ServiceName}.getById(${pk.humpAttrName});
+
+        return CommonResult.success(${humpClassName});
+    }
+
+    /**
      * 保存
      */
     @PostMapping("/save")
@@ -61,8 +73,35 @@ public class ${className}${ControllerName} {
 
         boolean flag = ${humpClassName}${ServiceName}.save(${className}${MapStructName}.INSTANCE.DTO2P(param));
         if (!flag){
-            throw ServiceExceptionUtil.exception(${className}${CodeConstantsName}.${tableNameToUpperCase}_SAVE_ERROR});
+            throw ServiceExceptionUtil.exception(${className}${CodeConstantsName}.${tableNameToUpperCase}_SAVE_ERROR);
         }
         return CommonResult.success(true);
     }
+
+    /**
+    * 修改
+    */
+    @PutMapping("/update")
+    @ApiOperation("更新${tableComment}")
+    public CommonResult${r"<"}Boolean> update(@RequestBody ${className}${UpdateDTOName} param){
+        boolean flag = ${humpClassName}${ServiceName}.updateById(${className}${MapStructName}.INSTANCE.DTO2P(param));
+        if (!flag){
+            throw ServiceExceptionUtil.exception(${className}${CodeConstantsName}.${tableNameToUpperCase}_UPDATE_ERROR);
+        }
+        return CommonResult.success(true);
+    }
+
+    /**
+    * 删除
+    */
+    @DeleteMapping("/delete")
+    @ApiOperation("删除${tableComment}")
+    public CommonResult${r"<"}Boolean> delete(@RequestBody ${pk.attrType}[] ${pk.humpAttrName}s){
+        boolean flag = ${humpClassName}${ServiceName}.removeByIds(Arrays.asList(${pk.humpAttrName}s));
+        if (!flag){
+            throw ServiceExceptionUtil.exception(${className}${CodeConstantsName}.${tableNameToUpperCase}_DELETE_ERROR);
+        }
+        return CommonResult.success(true);
+    }
+
 }

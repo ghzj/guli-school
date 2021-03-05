@@ -21,7 +21,9 @@ import java.util.Date;
 @ApiModel("${tableComment} 分页 Request DTO")
 public class ${className}${ListDTOName} extends OrderParam {
 <#list columns as column>
-    //${column.columnComment}
+    /**
+     * ${column.columnComment}
+     */
     @ApiModelProperty(value = "${column.columnComment}")
     private ${column.attrType} ${column.humpAttrName};
 </#list>

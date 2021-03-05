@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.ghzj.generator.aspect.ErrorCodeAnnotation;
 import io.github.ghzj.generator.entity.TablesEntity;
+import io.github.ghzj.generator.entity.properties.GeneratorProperties;
 import io.github.ghzj.generator.service.GeneratorService;
 import io.github.ghzj.generator.service.TablesService;
 import io.github.ghzj.generator.utils.PageUtils;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,18 +35,21 @@ public class GeneratorController {
     @Autowired
     private GeneratorService generatorService;
 
+    @Autowired
+    private GeneratorProperties generatorProperties;
+
     /**
-     * 列表
+     * 分页列表
      */
     @ResponseBody
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    @RequestMapping("/pageList")
+    public R pageList(@RequestParam Map<String, Object> params){
 
         String page =  (String)params.get("page");
         String limit =  (String)params.get("limit");
         String tableName = (String) params.get("tableName");
         QueryWrapper<TablesEntity> wrapper = new QueryWrapper<TablesEntity>()
-//                .eq("table_schema", "guli_education")
+                .eq("table_schema", generatorProperties.getTableSchema())
                 .like(tableName!=null && !"".equals(tableName),"table_name",tableName)
                 .orderByDesc("create_time");
 
@@ -53,12 +58,25 @@ public class GeneratorController {
         return R.ok().put("page", pageUtil);
     }
 
+    @ResponseBody
+    @RequestMapping("/list")
+    public R list(){
+
+        QueryWrapper<TablesEntity> wrapper = new QueryWrapper<TablesEntity>()
+                .eq("table_schema", generatorProperties.getTableSchema())
+                .orderByDesc("create_time");
+
+        List<TablesEntity> list = tablesService.list(wrapper);
+
+        return R.ok().put("list", list);
+    }
+
     /**
      * 生成代码
      */
     @RequestMapping("/code")
     @ErrorCodeAnnotation
-    public void code(String tables, HttpServletResponse response) throws IOException {
+    public void code(@RequestParam("tables") String tables, HttpServletResponse response) throws IOException {
         byte[] data = generatorService.generatorCode(tables.split(","));
 
         response.reset();

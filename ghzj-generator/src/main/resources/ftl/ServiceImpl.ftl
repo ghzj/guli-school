@@ -12,6 +12,8 @@ import ${packagePath}.${moduleName}.${DaoPath}.${className}${DaoName};
 import ${packagePath}.${moduleName}.${EntityPath}.${className}${EntityName};
 import ${packagePath}.${moduleName}.${ServicePath}.${className}${ServiceName};
 import ${packagePath}.${moduleName}.${ListDTOPath}.${packageName}.${className}${ListDTOName};
+import ${packagePath}.common.mybatis.util.PageUtil;
+import ${packagePath}.common.utils.OrderCodeUtil;
 
 /**
  * ${tableComment}
@@ -26,7 +28,7 @@ public class ${className}${ServiceImplName} extends ServiceImpl<${className}${Da
     @Override
     public PageUtils queryPage(${className}${ListDTOName} params) {
         IPage<${className}${EntityName}> page = this.page(
-            new Query<${className}${EntityName}>().getPage(params),
+            PageUtil.build(params, OrderCodeUtil.getSortingFields(params)),
             new QueryWrapper<${className}${EntityName}>());
 
         return new PageUtils(page);

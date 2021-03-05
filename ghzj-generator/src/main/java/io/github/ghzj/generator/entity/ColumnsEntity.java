@@ -51,4 +51,10 @@ public class ColumnsEntity implements Serializable {
     @TableField(exist = false)
     private String attrType;
 
+    /**
+     * 属性类型
+     */
+    @TableField(exist = false)
+    private boolean logicDelete;
+
 }

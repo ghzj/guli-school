@@ -21,6 +21,7 @@ public class GeneratorProperties {
     private String email;
     private String[] tablePrefix;
     private String baseErrorCode;
+    private String tableSchema;
 
     public String getTemplateClassScanPackagePath() {
         return templateClassScanPackagePath;
@@ -94,6 +95,14 @@ public class GeneratorProperties {
         this.baseErrorCode = baseErrorCode;
     }
 
+    public String getTableSchema() {
+        return tableSchema;
+    }
+
+    public void setTableSchema(String tableSchema) {
+        this.tableSchema = tableSchema;
+    }
+
     @Override
     public String toString() {
         return "GeneratorProperties{" +
@@ -106,6 +115,7 @@ public class GeneratorProperties {
                 ", email='" + email + '\'' +
                 ", tablePrefix=" + Arrays.toString(tablePrefix) +
                 ", baseErrorCode='" + baseErrorCode + '\'' +
+                ", tableSchema='" + tableSchema + '\'' +
                 '}';
     }
 }

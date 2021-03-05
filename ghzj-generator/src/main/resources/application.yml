@@ -14,16 +14,19 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
-
+  freemarker:
+    settings:
+      number_format: 0
 ghxj:
   generator:
     template-class-scan-package-path: io.github.ghzj.generator.template.po
     template-dir-path: ftl/
     main-path: io.github.ghzj.guli
     package-path: io.github.ghzj.guli
-    module-name: education
+    module-name: system
     author: ghzj
     email: xxxxxxx@qq.com
     table-prefix:
-      - education_
-    base-error-code: 1000000
+      - system_
+    base-error-code: 1001000
+    table-schema: guli_system

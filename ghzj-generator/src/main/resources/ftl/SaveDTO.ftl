@@ -20,7 +20,9 @@ import java.util.Date;
 @ApiModel("${tableComment} 添加 Request DTO")
 public class ${className}${SaveDTOName} {
 <#list columns as column>
-    //${column.columnComment}
+    /**
+     * ${column.columnComment}
+     */
     @ApiModelProperty(value = "${column.columnComment}")
     private ${column.attrType} ${column.humpAttrName};
 </#list>

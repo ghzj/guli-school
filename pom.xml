@@ -11,10 +11,11 @@
     <modules>
         <module>guli-school-common</module>
         <module>guli-school-parent</module>
-        <module>education-service</module>
-        <module>renren-generator</module>
+        <module>guli-school-education-service</module>
         <module>renren-fast</module>
         <module>ghzj-generator</module>
+        <module>guli-school-management-app</module>
+        <module>guli-school-system-service</module>
     </modules>
 
     <properties>

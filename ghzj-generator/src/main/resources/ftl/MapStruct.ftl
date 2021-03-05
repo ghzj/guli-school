@@ -2,6 +2,7 @@ package ${packagePath}.${moduleName}.${MapStructPath};
 
 import ${packagePath}.${moduleName}.${EntityPath}.${className}${EntityName};
 import ${packagePath}.${moduleName}.${SaveDTOPath}.${packageName}.${className}${SaveDTOName};
+import ${packagePath}.${moduleName}.${UpdateDTOPath}.${packageName}.${className}${UpdateDTOName};
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -21,4 +22,10 @@ public interface  ${className}${MapStructName} {
     * @return DTO2P
     */
     ${className}${EntityName} DTO2P(${className}${SaveDTOName} param);
+
+    /**
+    * @param param ${className}${UpdateDTOName}
+    * @return DTO2P
+    */
+    ${className}${EntityName} DTO2P(${className}${UpdateDTOName} param);
 }

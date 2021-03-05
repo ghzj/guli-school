@@ -23,9 +23,15 @@ public class ${className}${EntityName} implements Serializable {
     private static final long serialVersionUID = 1L;
 
 <#list columns as column>
-    //${column.columnComment}
+    /**
+     * ${column.columnComment}
+     */
     <#if column.columnName == pk.columnName>
     @TableId
+    </#if>
+    <#if column.logicDelete >
+    @TableField("${column.columnName}")
+    @TableLogic
     </#if>
     private ${column.attrType} ${column.humpAttrName};
 </#list>

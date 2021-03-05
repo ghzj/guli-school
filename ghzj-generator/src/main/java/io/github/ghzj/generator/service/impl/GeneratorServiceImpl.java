@@ -76,9 +76,16 @@ public class GeneratorServiceImpl implements GeneratorService {
 
         //列信息
         for (ColumnsEntity column : columns) {
+
+            String columnName = column.getColumnName();
+            if (column.getColumnName().startsWith("is_")){
+                columnName = columnName.replace("is_","");
+                column.setLogicDelete(true);
+            }
+
             //列名转换成Java属性名
             //列的数据类型，转换成Java类型
-            setAttrNameAndHumpAttrNameAndAttrType(column);
+            setAttrNameAndHumpAttrNameAndAttrType(columnName,column);
 
             if (!hasBigDecimal && "BigDecimal".equals(column.getAttrType())) {
                 hasBigDecimal = true;
@@ -145,8 +152,8 @@ public class GeneratorServiceImpl implements GeneratorService {
         table.setHumpClassName(StringUtils.uncapitalize(className));
     }
 
-    private void setAttrNameAndHumpAttrNameAndAttrType(ColumnsEntity column) {
-        String attrName = GeneratorStringUtils.columnToJava(column.getColumnName());
+    private void setAttrNameAndHumpAttrNameAndAttrType(String columnName,ColumnsEntity column) {
+        String attrName = GeneratorStringUtils.columnToJava(columnName);
         column.setAttrName(attrName);
         column.setHumpAttrName(StringUtils.uncapitalize(attrName));
         String attrType = GeneratorPropertiesUtils.getConfigurationString(column.getDataType(),
