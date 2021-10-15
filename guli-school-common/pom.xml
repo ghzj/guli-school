@@ -17,6 +17,7 @@
         <module>guli-school-spring-boot-starter-swagger</module>
         <module>guli-school-spring-boot-starter-web</module>
         <module>guli-school-spring-boot-starter-mybatis</module>
+        <module>guli-school-spring-boot-starter-dubbo</module>
     </modules>
 
     <properties>

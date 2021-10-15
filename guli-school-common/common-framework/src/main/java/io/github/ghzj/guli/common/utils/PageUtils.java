@@ -8,7 +8,6 @@
 
 package io.github.ghzj.guli.common.utils;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.io.Serializable;
 import java.util.List;
@@ -40,7 +39,10 @@ public class PageUtils<T> implements Serializable {
 	 * 列表数据
 	 */
 	private List<T> list;
-	
+
+	public PageUtils() {
+	}
+
 	/**
 	 * 分页
 	 * @param list        列表数据
@@ -59,12 +61,12 @@ public class PageUtils<T> implements Serializable {
 	/**
 	 * 分页
 	 */
-	public PageUtils(IPage<T> page) {
-		this.list = page.getRecords();
-		this.totalCount = (int)page.getTotal();
-		this.pageSize = (int)page.getSize();
-		this.currPage = (int)page.getCurrent();
-		this.totalPage = (int)page.getPages();
+	public PageUtils(List<T> list, int totalCount, int pageSize, int currPage,int totalPage) {
+		this.list = list;
+		this.totalCount = totalCount;
+		this.pageSize = pageSize;
+		this.currPage = currPage;
+		this.totalPage = totalPage;
 	}
 
 	public int getTotalCount() {
@@ -99,7 +101,7 @@ public class PageUtils<T> implements Serializable {
 		this.currPage = currPage;
 	}
 
-	public List<?> getList() {
+	public List<T> getList() {
 		return list;
 	}
 

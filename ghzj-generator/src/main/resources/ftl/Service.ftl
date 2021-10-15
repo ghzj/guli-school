@@ -16,5 +16,5 @@ import java.util.Map;
  */
 public interface ${className}${ServiceName} extends IService<${className}${EntityName}> {
 
-    PageUtils queryPage(${className}${ListDTOName} params);
+    PageUtils<${className}${EntityName}> queryPage(${className}${ListDTOName} params);
 }

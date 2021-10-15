@@ -2,6 +2,7 @@ package io.github.ghzj.guli.education.object.transfer.data.subject;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
 import lombok.Data;
 import java.util.Date;
 
@@ -10,27 +11,41 @@ import java.util.Date;
  *
  * @author ghzj
  * @email xxxxxxx@qq.com
- * @date 2021-01-18 19:36:30
+ * @date 2021-08-05 02:30:13
  */
 @Data
 @ApiModel("课程科目 添加 Request DTO")
-public class SubjectSaveDTO {
-    //课程类别ID
+public class SubjectSaveDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 课程类别ID
+     */
     @ApiModelProperty(value = "课程类别ID")
     private String id;
-    //类别名称
+    /**
+     * 类别名称
+     */
     @ApiModelProperty(value = "类别名称")
     private String title;
-    //父ID
+    /**
+     * 父ID
+     */
     @ApiModelProperty(value = "父ID")
     private String parentId;
-    //排序字段
+    /**
+     * 排序字段
+     */
     @ApiModelProperty(value = "排序字段")
     private Integer sort;
-    //创建时间
+    /**
+     * 创建时间
+     */
     @ApiModelProperty(value = "创建时间")
     private Date gmtCreate;
-    //更新时间
+    /**
+     * 更新时间
+     */
     @ApiModelProperty(value = "更新时间")
     private Date gmtModified;
 }

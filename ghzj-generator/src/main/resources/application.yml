@@ -7,7 +7,7 @@ spring:
   resources:
     static-locations: classpath:/static/,classpath:/views/
   datasource:
-    url: jdbc:mysql://192.168.100.21:3306/information_schema?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://127.0.0.1:3306/information_schema?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root # 数据库账号
     password: 123 # 数据库密码
@@ -23,10 +23,10 @@ ghxj:
     template-dir-path: ftl/
     main-path: io.github.ghzj.guli
     package-path: io.github.ghzj.guli
-    module-name: system
+    module-name: education
     author: ghzj
     email: xxxxxxx@qq.com
     table-prefix:
-      - system_
+      - education_
     base-error-code: 1001000
-    table-schema: guli_system
+    table-schema: guli_education

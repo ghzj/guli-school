@@ -1,5 +1,8 @@
 package io.github.ghzj.guli.education.service.impl;
 
+
+import io.github.ghzj.guli.common.mybatis.query.QueryWrapperX;
+import io.github.ghzj.guli.education.object.view.teacher.TeacherPageVO;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -24,12 +27,15 @@ import io.github.ghzj.guli.common.utils.OrderCodeUtil;
 public class TeacherServiceImpl extends ServiceImpl<TeacherDao, TeacherEntity> implements TeacherService {
 
     @Override
-    public PageUtils queryPage(TeacherListDTO params) {
+    public PageUtils<TeacherEntity> queryPage(TeacherListDTO params) {
         IPage<TeacherEntity> page = this.page(
             PageUtil.build(params, OrderCodeUtil.getSortingFields(params)),
-            new QueryWrapper<TeacherEntity>());
+                new QueryWrapperX<TeacherEntity>()
+                        .eqIfPresent("name",params.getName())
+                        .eqIfPresent("level",params.getLevel())
+                        .betweenIfPresent("gmt_create",params.getBegin(),params.getEnd()));
 
-        return new PageUtils(page);
+        return new PageUtils<>(page.getRecords(),(int)page.getTotal(),(int)page.getSize(),(int)page.getCurrent(),(int)page.getPages());
     }
 
 }

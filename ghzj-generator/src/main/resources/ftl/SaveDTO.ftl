@@ -18,7 +18,9 @@ import java.util.Date;
  */
 @Data
 @ApiModel("${tableComment} 添加 Request DTO")
-public class ${className}${SaveDTOName} {
+public class ${className}${SaveDTOName} implements Serializable {
+    private static final long serialVersionUID = 1L;
+
 <#list columns as column>
     /**
      * ${column.columnComment}

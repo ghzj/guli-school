@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +70,17 @@ public class GeneratorController {
         List<TablesEntity> list = tablesService.list(wrapper);
 
         return R.ok().put("list", list);
+    }
+
+    @ResponseBody
+    @RequestMapping("/list1")
+    public List<TablesEntity> list1(){
+
+        QueryWrapper<TablesEntity> wrapper = new QueryWrapper<TablesEntity>()
+                .eq("table_schema", generatorProperties.getTableSchema())
+                .orderByDesc("create_time");
+
+        return tablesService.list(wrapper);
     }
 
     /**

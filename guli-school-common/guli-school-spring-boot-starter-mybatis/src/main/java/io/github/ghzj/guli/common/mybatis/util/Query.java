@@ -6,11 +6,12 @@
  * 版权所有，侵权必究！
  */
 
-package io.github.ghzj.guli.common.utils;
+package io.github.ghzj.guli.common.mybatis.util;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.ghzj.guli.common.utils.Constant;
 import io.github.ghzj.guli.common.xss.SQLFilter;
 import org.apache.commons.lang.StringUtils;
 

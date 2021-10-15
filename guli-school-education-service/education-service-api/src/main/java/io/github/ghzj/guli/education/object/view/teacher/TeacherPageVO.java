@@ -1,12 +1,18 @@
 package io.github.ghzj.guli.education.object.view.teacher;
 
+import lombok.Data;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author ghzj
  * @date 2021/1/21 21:25
  */
-public class TeacherPageVO {
+@Data
+public class TeacherPageVO implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     //讲师ID
     private String id;
     //讲师姓名

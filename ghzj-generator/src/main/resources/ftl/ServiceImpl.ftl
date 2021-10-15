@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ${mainPath}.common.utils.PageUtils;
-import ${mainPath}.common.utils.Query;
 
 import ${packagePath}.${moduleName}.${DaoPath}.${className}${DaoName};
 import ${packagePath}.${moduleName}.${EntityPath}.${className}${EntityName};
@@ -26,12 +25,12 @@ import ${packagePath}.common.utils.OrderCodeUtil;
 public class ${className}${ServiceImplName} extends ServiceImpl<${className}${DaoName}, ${className}${EntityName}> implements ${className}${ServiceName} {
 
     @Override
-    public PageUtils queryPage(${className}${ListDTOName} params) {
+    public PageUtils<${className}${EntityName}> queryPage(${className}${ListDTOName} params) {
         IPage<${className}${EntityName}> page = this.page(
             PageUtil.build(params, OrderCodeUtil.getSortingFields(params)),
             new QueryWrapper<${className}${EntityName}>());
 
-        return new PageUtils(page);
+        return new PageUtils<>(page.getRecords(),(int)page.getTotal(),(int)page.getSize(),(int)page.getCurrent(),(int)page.getPages());
     }
 
 }

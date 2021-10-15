@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard | Nadhif - Responsive Admin Template</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/bootstrap-table.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.15.4/locale/bootstrap-table-zh-CN.min.js"></script>
+</head>
+<body>
+<a href="javascript:;"  id="remove"><span class="hidden-480">生成代码</span></a>
+<table id="mytab" class="table table-hover"></table>
+<script>
+    //https://cloud.tencent.com/developer/article/1534146 参考文章
+    $('#mytab').bootstrapTable({
+        method: 'get',
+        url: "http://localhost:11111/sys/generator/list1", // 请求路径
+        striped: true, // 是否显示行间隔色
+        pageNumber: 1, // 初始化加载第一页
+        pagination: true, // 是否分页
+        sidePagination: 'client', // server:服务器端分页|client：前端分页
+        pageSize: 20, // 单页记录数
+        pageList: [5, 20, 30],
+        // showRefresh : true,// 刷新按钮
+        queryParams: function(params) { // 上传服务器的参数
+            var temp = {
+                name: $("#sname").val(),
+                viewReason: $("#viewReason").val(),
+            };
+            console.log(params)
+            return temp;
+        },
+        columns: [{
+            checkbox: true
+        },{
+            title: '表名',
+            field: 'tableName',
+        },{
+            title: 'Engine',
+            field: 'engine',
+        },{
+            title: '表注释',
+            field: 'tableComment',
+        },{
+            title: '创建时间',
+            field: 'createTime',
+        }]
+    })
+
+    // 删除按钮事件
+    $("#remove").on("click", function() {
+
+        if(!confirm("是否确认生成代码？"))
+            return;
+        var rows = $("#mytab").bootstrapTable('getSelections'); // 获得数据
+        if(rows.length == 0) { // rows 主要是为了判断是否选中，下面的else内容才是主要
+            alert("请先选择要生成代码的记录!");
+            return;
+        } else {
+            var ids = new Array(); // 声明一个数组
+            $(rows).each(function() { // 通过获得别选中的来进行遍历
+                ids.push(this.tableName); // cid为获得到的整条数据中的一列
+            });
+            location.href = 'http://localhost:11111/sys/generator/code?tables=' + ids.join();
+        }
+
+    })
+
+</script>
+</body>
+</html>

@@ -2,6 +2,8 @@ package ${packagePath}.${moduleName}.${EntityPath};
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 
 <#if hasBigDecimal>
 import java.math.BigDecimal;

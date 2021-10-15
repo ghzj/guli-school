@@ -3,6 +3,8 @@ package io.github.ghzj.guli.education.object.transfer.data.teacher;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -14,7 +16,8 @@ import java.util.Date;
  */
 @Data
 @ApiModel("讲师 更新 Request DTO")
-public class TeacherUpdateDTO {
+public class TeacherUpdateDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
     //讲师ID
     @ApiModelProperty(value = "讲师ID")
     private String id;

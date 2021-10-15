@@ -11,6 +11,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>guli-school-system-service</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>system-service-api</module>
+        <module>system-service-application</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

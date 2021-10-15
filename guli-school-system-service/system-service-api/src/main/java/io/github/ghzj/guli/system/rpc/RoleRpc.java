@@ -1,0 +1,56 @@
+package io.github.ghzj.guli.system.rpc;
+
+import io.github.ghzj.guli.common.vo.CommonResult;
+import io.github.ghzj.guli.common.utils.PageUtils;
+import io.github.ghzj.guli.system.object.transfer.data.role.RoleListDTO;
+import io.github.ghzj.guli.system.object.transfer.data.role.RoleSaveDTO;
+import io.github.ghzj.guli.system.object.transfer.data.role.RoleUpdateDTO;
+import io.github.ghzj.guli.system.object.view.role.RolePageVO;
+import io.github.ghzj.guli.system.object.view.role.RoleInfoVO;
+
+/**
+ * 系统角色 Rpc 接口
+ *
+ * @author ghzj
+ * @email xxxxxxx@qq.com
+ * @date 2021-03-09 16:03:28
+ */
+public interface RoleRpc {
+
+    /**
+     * 系统角色 列表
+     * @param param param
+     * @return 分页数据，返回null表示没数据
+     */
+    CommonResult<PageUtils<RolePageVO>> pageRole(RoleListDTO param);
+
+
+    /**
+     * 系统角色 信息
+     * @param id id
+     * @return 获取信息，返回null表示没数据
+     */
+    CommonResult<RoleInfoVO> info(Long id);
+
+    /**
+     * 系统角色 保存
+     * @param param param
+     * @return 保存，保存不成功会返回错误代码
+     */
+    CommonResult<Boolean> save(RoleSaveDTO param);
+
+    /**
+     * 系统角色 修改
+     * @param param param
+     * @return 修改，修改不成功会返回错误代码
+     */
+    CommonResult<Boolean> update(RoleUpdateDTO param);
+
+    /**
+     * 系统角色 删除
+     * @param param id列表
+     * @return 删除，删除不成功会返回错误代码
+     */
+    CommonResult<Boolean> delete(Long[] ids);
+
+}

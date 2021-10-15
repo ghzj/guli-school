@@ -12,23 +12,33 @@ public interface ExecTemplate {
         return template.equals(getName());
     }
 
-    default String getFilePathName(String packagePath, Map<String, Object> map){
-        return getFileName(packagePath,map);
+    default String getFilePathName(String packagePath, Map<String, Object> map) {
+        return getFileName(packagePath, map);
     }
 
     default String getName() {
-        return  getClass().getSimpleName() + ".ftl";
+        return getClass().getSimpleName() + ".ftl";
     }
 
-    default String getTemplateName(){
-        return  getClass().getSimpleName()+"Name:"+getClass().getSimpleName();
+    default String getTemplateName() {
+        return getClass().getSimpleName() + "Name:" + getTemplateNameValue();
     }
 
-    default String getTemplatePathName(){
-        return getClass().getSimpleName()+"Path:"+getTemplatePathValue();
+    default String getTemplatePathName() {
+        return getClass().getSimpleName() + "Path:" + getTemplatePathValue();
     }
 
+    /**
+     * @return 文件存放相对路径
+     */
     String getTemplatePathValue();
+
+    /**
+     * @return 文件名字
+     */
+    default String getTemplateNameValue() {
+        return getClass().getSimpleName();
+    }
 
     default String getDTOFileName(String packagePath, Map<String, Object> map) {
         String packageName = ((String) map.get("packageName")).replace(".", File.separator);
